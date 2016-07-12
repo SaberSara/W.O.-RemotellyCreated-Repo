@@ -13,11 +13,11 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
     [SerializeField] float driftSeconds = 3;
     private float driftTimer;
     private bool isDriftingToFPS=false,isDriftingToTPS=false,isDriftingToRTS=false;
+    private GameObject tripleVisionScript;
+    // Use this for initialization
+    void Start () {
 
-	// Use this for initialization
-	void Start () {
-
-
+        tripleVisionScript = GameObject.FindGameObjectWithTag("MainCamera");
 
 
 
@@ -48,11 +48,15 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //RTS
+        //FPS Input Clivk
 
 
         if (Input.GetKey(KeyCode.Alpha0) || Input.GetKey(KeyCode.Keypad0) || (EventSystem.current.currentSelectedGameObject == FPSButGO))
             {
+            //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
+            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = false;
+
+             //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = false;
             isDriftingToFPS = true;
             isDriftingToTPS = false;
@@ -61,9 +65,18 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             camPos = transform.position;
             camRot = transform.rotation;
             }
+
+        //TPS Input Clivk
+
+
         else if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1) || (EventSystem.current.currentSelectedGameObject == TPSButGO))
         {
-            
+            //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
+            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled=false;
+
+
+
+            //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = false;
             isDriftingToFPS = false;
             isDriftingToTPS = true;
@@ -72,9 +85,16 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             camPos = transform.position;
             camRot = transform.rotation;
         }
+
+        //RTS Input Clivk
+
+
         else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2) || (EventSystem.current.currentSelectedGameObject == RTSButGO))
         {
+            //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
+            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = true;
 
+            //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = true;
             isDriftingToFPS = false;
             isDriftingToTPS = false;
@@ -83,8 +103,13 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             camPos = transform.position;
             camRot = transform.rotation;
         }
+
+        //FPS Vivion Camera Click 
+
         if (isDriftingToFPS)
         {
+            
+            //Lerping Vivion Camera
             driftTimer = driftTimer + Time.deltaTime;
             if (driftTimer > driftSeconds)
             {
@@ -99,8 +124,10 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(camRot, FPSRot, ratio);
             }
         }
+        //TPS Vivion Camera Click 
         if (isDriftingToTPS)
         {
+            //Lerping Vivion Camera
             driftTimer = driftTimer + Time.deltaTime;
             if (driftTimer > driftSeconds)
             {
@@ -117,6 +144,7 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
         }
         if (isDriftingToRTS)
         {
+            //Lerping Vivion Camera
             driftTimer = driftTimer + Time.deltaTime;
             if(driftTimer > driftSeconds)
             {

@@ -380,6 +380,7 @@ GameObject:
   - 124: {fileID: 971780672}
   - 81: {fileID: 971780671}
   - 114: {fileID: 971780670}
+  - 114: {fileID: 971780676}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -460,13 +461,36 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 971780669}
-  m_LocalRotation: {x: 0.05292895, y: 0, z: 0, w: 0.99859834}
-  m_LocalPosition: {x: 189, y: 19, z: -19}
+  m_LocalRotation: {x: 0.33229527, y: 0, z: 0, w: 0.94317544}
+  m_LocalPosition: {x: 189, y: 133, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 6.0681, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 38.8163, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &971780676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 971780669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d11f342b48852041bc6acc8e6b51ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minX: -360
+  maxX: 360
+  minY: -45
+  maxY: 90
+  sensX: 100
+  sensY: 100
+  rotationY: -45
+  rotationX: 112.41624
+  mouseSpeed: 548
+  ratio: 24.02
+  mouseZoom: 21.07
+  maxZoom: 78.03
 --- !u!1 &1006546787
 GameObject:
   m_ObjectHideFlags: 0
