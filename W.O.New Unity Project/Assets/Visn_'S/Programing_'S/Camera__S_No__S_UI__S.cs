@@ -14,10 +14,13 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
     private float driftTimer;
     private bool isDriftingToFPS=false,isDriftingToTPS=false,isDriftingToRTS=false;
     private GameObject tripleVisionScript;
+
+
+    public static bool RTSIsOK = true, FPSIsOK = false, TPSIsOK = false;
     // Use this for initialization
     void Start () {
 
-        tripleVisionScript = GameObject.FindGameObjectWithTag("MainCamera");
+        tripleVisionScript = GameObject.Find("Main Camera");
 
 
 
@@ -54,9 +57,11 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
         if (Input.GetKey(KeyCode.Alpha0) || Input.GetKey(KeyCode.Keypad0) || (EventSystem.current.currentSelectedGameObject == FPSButGO))
             {
             //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
-            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = false;
+            /*tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = false;
+            tripleVisionScript.GetComponent<Camera__S_FPS_No__S_UI__S>().enabled = true;
+            tripleVisionScript.GetComponent<Camera__S_TPS_No__S_UI__S>().enabled = false;*/
 
-             //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
+            //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = false;
             isDriftingToFPS = true;
             isDriftingToTPS = false;
@@ -72,9 +77,10 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
         else if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1) || (EventSystem.current.currentSelectedGameObject == TPSButGO))
         {
             //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
-            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled=false;
+            /*tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled=false;
+            tripleVisionScript.GetComponent<Camera__S_FPS_No__S_UI__S>().enabled = false;
 
-
+            tripleVisionScript.GetComponent<Camera__S_TPS_No__S_UI__S>().enabled = true;*/
 
             //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = false;
@@ -84,6 +90,7 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
 
             camPos = transform.position;
             camRot = transform.rotation;
+            
         }
 
         //RTS Input Clivk
@@ -92,14 +99,16 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
         else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2) || (EventSystem.current.currentSelectedGameObject == RTSButGO))
         {
             //Compovents Vivion Camera for Player Special Camera Interaction Activating / Descativating Switch Of The Case Of Vison Camera
-            tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = true;
+            /*tripleVisionScript.GetComponent<Camera__S_RTS_No__S_UI__S>().enabled = true;
+            tripleVisionScript.GetComponent<Camera__S_FPS_No__S_UI__S>().enabled = false;
+            tripleVisionScript.GetComponent<Camera__S_TPS_No__S_UI__S>().enabled = false;*/
 
             //Initialising Processus And Somes Important To initialize First Values For The Next Beside Process Of Lerping Vivion Camera
             isDriftingToRTS = true;
             isDriftingToFPS = false;
             isDriftingToTPS = false;
             driftTimer = 0;
-
+            
             camPos = transform.position;
             camRot = transform.rotation;
         }
@@ -114,14 +123,17 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             if (driftTimer > driftSeconds)
             {
                 isDriftingToFPS = false;
-                transform.position = FPSPos;
-                transform.rotation = FPSRot;
+                transform.position = Camera__S_FPS_No__S_UI__S.FPSActualPositionCam.position;
+                transform.rotation = Camera__S_FPS_No__S_UI__S.FPSActualPositionCam.rotation;
+                FPSIsOK = true;
+                RTSIsOK = false;
+                TPSIsOK = false;
             }
             else
             {
                 float ratio = driftTimer / driftSeconds;
-                transform.position = Vector3.Lerp(camPos, FPSPos, ratio);
-                transform.rotation = Quaternion.Slerp(camRot, FPSRot, ratio);
+                transform.position = Vector3.Lerp(camPos, Camera__S_FPS_No__S_UI__S.FPSActualPositionCam.position, ratio);
+                transform.rotation = Quaternion.Slerp(camRot, Camera__S_FPS_No__S_UI__S.FPSActualPositionCam.rotation, ratio);
             }
         }
         //TPS Vivion Camera Click 
@@ -132,14 +144,17 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             if (driftTimer > driftSeconds)
             {
                 isDriftingToTPS = false;
-                transform.position = TPSPos;
-                transform.rotation = TPSRot;
+                transform.position = Camera__S_TPS_No__S_UI__S.TPSActualPositionCam.position;
+                transform.rotation = Camera__S_TPS_No__S_UI__S.TPSActualPositionCam.rotation;
+                FPSIsOK = false;
+                RTSIsOK = false;
+                TPSIsOK = true;
             }
             else
             {
                 float ratio = driftTimer / driftSeconds;
-                transform.position = Vector3.Lerp(camPos, TPSPos, ratio);
-                transform.rotation = Quaternion.Slerp(camRot, TPSRot, ratio);
+                transform.position = Vector3.Lerp(camPos, Camera__S_TPS_No__S_UI__S.TPSActualPositionCam.position, ratio);
+                transform.rotation = Quaternion.Slerp(camRot, Camera__S_TPS_No__S_UI__S.TPSActualPositionCam.rotation, ratio);
             }
         }
         if (isDriftingToRTS)
@@ -149,13 +164,26 @@ public class Camera__S_No__S_UI__S : MonoBehaviour {
             if(driftTimer > driftSeconds)
             {
                 isDriftingToRTS = false;
-                transform.position = RTSPos;
+                transform.localPosition = Camera__S_RTS_No__S_UI__S.RTSActualPositionCam.position;
                 transform.rotation = RTSRot;
+                FPSIsOK = false;
+                RTSIsOK = true;
+                TPSIsOK = false;
+             ////////
+             ///
+             /**
+              * 
+              * 
+              * **/
+
+                /*  distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+                Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+                Vector3 position = rotation * negDistance + target.position;*/
             }
             else
             {
                 float ratio = driftTimer / driftSeconds;
-                transform.position = Vector3.Lerp(camPos, RTSPos, ratio);
+                transform.position = Vector3.Lerp(camPos, Camera__S_RTS_No__S_UI__S.RTSActualPositionCam.position, ratio);
                 transform.rotation = Quaternion.Slerp(camRot, RTSRot, ratio);
             }
         }
